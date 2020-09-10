@@ -26,6 +26,7 @@ type BlobUpload struct {
 	ContainerName string
 
 	BlobType      string
+	CacheControl  string
 	ContentType   string
 	MetaData      map[string]string
 	Parallelism   int
@@ -92,8 +93,9 @@ func (sbu BlobUpload) copy(ctx context.Context) error {
 
 func (sbu BlobUpload) createEmptyAppendBlob(ctx context.Context) error {
 	input := blobs.PutAppendBlobInput{
-		ContentType: utils.String(sbu.ContentType),
-		MetaData:    sbu.MetaData,
+		CacheControl: utils.String(sbu.CacheControl),
+		ContentType:  utils.String(sbu.ContentType),
+		MetaData:     sbu.MetaData,
 	}
 	if _, err := sbu.Client.PutAppendBlob(ctx, sbu.AccountName, sbu.ContainerName, sbu.BlobName, input); err != nil {
 		return fmt.Errorf("Error PutAppendBlob: %s", err)

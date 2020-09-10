@@ -87,6 +87,11 @@ func resourceArmStorageBlob() *schema.Resource {
 				}, false),
 			},
 
+			"cache_control": {
+				Type:     schema.TypeString,
+				Optional: true,
+			},
+
 			"content_type": {
 				Type:     schema.TypeString,
 				Optional: true,
@@ -178,6 +183,7 @@ func resourceArmStorageBlobCreate(d *schema.ResourceData, meta interface{}) erro
 		Client:        blobsClient,
 
 		BlobType:      d.Get("type").(string),
+		CacheControl:  d.Get("cache_control").(string),
 		ContentType:   d.Get("content_type").(string),
 		MetaData:      ExpandMetaData(metaDataRaw),
 		Parallelism:   d.Get("parallelism").(int),
